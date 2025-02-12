@@ -15,7 +15,6 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
-        // Simule l'envoi (à remplacer par un vrai envoi d'email si besoin)
         return redirect()->back()->with('success', 'Votre message a bien été envoyé !');
     }
 }

@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto px-6 py-6">
 
-        <!-- 🏷️ Bannière Promotionnelle -->
         <div class="relative w-full bg-cover bg-center h-[400px] rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-500 ease-in-out"
              style="background-image: url('{{ asset('images/banner.webp') }}');">
             <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-start text-start p-28 text-white">
@@ -13,7 +12,6 @@
             </div>
         </div>
 
-        <!-- 🛍️ Catégories Populaires -->
         <div class="mt-12">
             <h2 class="text-3xl font-bold text-gray-800 mb-6">Explorez nos Catégories</h2>
             <div class="grid grid-cols-2 md:grid-cols-6 gap-6">
@@ -32,7 +30,6 @@
             </div>
         </div>
 
-        <!-- ⭐ Produits Populaires -->
         <div class="mt-16">
             <h2 class="text-3xl font-bold text-gray-800 mb-6">Produits Populaires</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -48,7 +45,6 @@
             </div>
         </div>
 
-        <!-- 💬 Témoignages Clients -->
         <div class="mt-16 bg-gray-100 p-12 rounded-lg shadow-lg">
             <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Ce que disent nos clients</h2>
             <div class="grid md:grid-cols-3 gap-8">
@@ -68,7 +64,6 @@
 
     </div>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 text-white mt-16 py-10">
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>

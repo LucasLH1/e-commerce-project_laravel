@@ -35,14 +35,15 @@ class CheckoutController extends Controller
         $cart = session()->get('cart', []);
         $quickProductId = $request->input('quick_product_id');
         $paymentMethod = PaymentMethod::find($validated['payment_method_id']);
+        $couponId = session()->has('applied_coupon') ? session('applied_coupon')['id'] : null;
 
+        //dd($couponId);
         //dd($quickProductId);
 
         if (!$paymentMethod) {
             return redirect()->route('checkout.index')->with('error', 'Méthode de paiement invalide.');
         }
 
-        // ✅ Vérification si un paiement rapide est en cours
         if ($quickProductId) {
             $product = Product::find($quickProductId);
 
@@ -53,7 +54,6 @@ class CheckoutController extends Controller
 
             $total = $product->price;
 
-            // Création de la commande rapide
             $order = Order::create([
                 'user_id' => $user->id,
                 'total_price' => $total,
@@ -62,7 +62,6 @@ class CheckoutController extends Controller
                 'address_id' => auth()->user()->addresses()->where('is_active', true)->first()?->id,
             ]);
 
-            // Enregistrement du produit dans les détails de commande
             OrderDetail::create([
                 'order_id' => $order->id,
                 'product_id' => $product->id,
@@ -70,21 +69,21 @@ class CheckoutController extends Controller
                 'price' => $product->price,
             ]);
 
-            // Mise à jour du stock
             $product->decrement('stock', 1);
 
         } else {
-            // ✅ Paiement via panier
             if (empty($cart)) {
                 return redirect()->route('cart.index')->with('error', 'Votre panier est vide.');
             }
 
             $total = session()->get('cart_total', 0);
+            //dd($couponId);
 
             $order = Order::create([
                 'user_id' => $user->id,
                 'total_price' => $total,
                 'payment_method_id' => $paymentMethod->id,
+                'coupon_id' => $couponId,
                 'status' => 'pending',
                 'address_id' => auth()->user()->addresses()->where('is_active', true)->first()?->id,
             ]);
@@ -102,6 +101,7 @@ class CheckoutController extends Controller
                 }
             }
 
+            session()->forget('applied_coupon');
             session()->forget('cart');
         }
 

@@ -1,7 +1,6 @@
 <x-app-layout>
 
     <div class="container mx-auto max-w-6xl py-6 grid grid-cols-3 gap-8">
-        <!-- Section principale du panier -->
         <div class="col-span-2 bg-white p-6 rounded-lg shadow-lg">
             <div class="flex justify-between items-center border-b pb-2">
                 <h2 class="text-2xl font-bold mb-4">🛒 Détails de votre panier</h2>
@@ -19,7 +18,6 @@
                             </div>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <!-- Utilisation de $productId au lieu de $item['id'] -->
                             <div class="flex items-center border border-gray-300 rounded-lg">
                                 <button onclick="updateQuantity({{ $productId }}, {{ $item['quantity'] - 1 }})" class="px-3 py-2 text-gray-600 hover:bg-gray-200">−</button>
                                 <span class="px-4">{{ $item['quantity'] }}</span>
@@ -34,7 +32,6 @@
             @endif
         </div>
 
-        <!-- Récapitulatif -->
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h3 class="text-lg font-bold mb-4">Récapitulatif</h3>
             <div class="border-b pb-4">

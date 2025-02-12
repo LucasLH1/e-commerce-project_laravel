@@ -60,6 +60,14 @@ return [
             'report' => false,
         ],
 
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path('images/products'), // Sauvegarde dans `public/images/products`
+            'visibility' => 'public',
+            'max_size' => env('UPLOAD_MAX_SIZE', 20 * 1024), // Définit la taille max d'upload (20MB)
+        ],
+
+
     ],
 
     /*
@@ -76,5 +84,6 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+
 
 ];

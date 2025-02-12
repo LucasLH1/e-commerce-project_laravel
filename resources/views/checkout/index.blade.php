@@ -14,7 +14,6 @@
             </div>
         @endif
 
-        <!-- Sélection de l'adresse -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">📍 Adresse de Livraison</h2>
 
@@ -33,7 +32,6 @@
             @endif
         </div>
 
-        <!-- Modal de gestion des adresses -->
         <div x-show="showAddressModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
             <div class="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h2 class="text-lg font-semibold mb-4">📍 Gérer mes adresses</h2>
@@ -44,14 +42,11 @@
             </div>
         </div>
 
-        <!-- Récapitulatif de la commande -->
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">🧾 Récapitulatif de votre commande</h2>
 
-            <!-- Affichage des produits en fonction du type de paiement -->
             <ul class="space-y-4">
                 @if(isset($quickProduct))
-                    <!-- Achat rapide : afficher uniquement ce produit -->
                     <li class="flex justify-between items-center border-b pb-2">
                         <div class="flex items-center space-x-4">
                             <img src="{{ asset($quickProduct['image']) }}" alt="{{ $quickProduct['name'] }}" class="w-16 h-16 object-contain">
@@ -63,7 +58,6 @@
                         <p class="text-gray-900 font-bold">{{ number_format($quickProduct['price'], 2) }} €</p>
                     </li>
                 @else
-                    <!-- Achat normal : afficher les articles du panier -->
                     @foreach($cart as $id => $item)
                         <li class="flex justify-between items-center border-b pb-2">
                             <div class="flex items-center space-x-4">
@@ -86,8 +80,6 @@
                 </p>
             </div>
 
-            <!-- Formulaire de paiement -->
-            <!-- Formulaire de paiement -->
             <form action="{{ route('checkout.process') }}" method="POST" x-data="{ paymentMethodId: null, quickProductId: '{{ request('quick_product_id') }}' }">
                 @csrf
                 <input type="hidden" name="payment_method_id" x-model="paymentMethodId">

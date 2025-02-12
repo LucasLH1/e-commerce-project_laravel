@@ -10,7 +10,7 @@
             <p class="text-gray-700 mt-2">Total payé : <strong>{{ number_format($order->total_price, 2) }} €</strong></p>
             <p class="text-gray-700">Méthode de paiement : <strong>{{ $order->paymentMethod->name }}</strong></p>
 
-            <a href="{{ route('orders.history') }}" class="mt-6 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+            <a href="{{ route('profile.index') }}" class="mt-6 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                 📜 Voir mes commandes
             </a>
         </div>

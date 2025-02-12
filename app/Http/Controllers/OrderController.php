@@ -21,14 +21,14 @@ class OrderController extends Controller
     public function cancel(Order $order)
     {
         if ($order->user_id !== auth()->id()) {
-            return redirect()->route('orders.history')->with('error', 'Vous ne pouvez pas annuler cette commande.');
+            return redirect()->route('profile.index')->with('error', 'Vous ne pouvez pas annuler cette commande.');
         }
 
         if ($order->cancel()) {
-            return redirect()->route('orders.history')->with('success', 'Commande annulée et stock restauré.');
+            return redirect()->route('profile.index')->with('success', 'Commande annulée et stock restauré.');
         }
 
-        return redirect()->route('orders.history')->with('error', 'Cette commande ne peut pas être annulée.');
+        return redirect()->route('profile.index')->with('error', 'Cette commande ne peut pas être annulée.');
     }
 
 

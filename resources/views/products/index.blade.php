@@ -1,6 +1,5 @@
 <x-app-layout>
     <div class="container mx-auto max-w-6xl py-6">
-        <!-- Notifications -->
         <div x-data="{ showNotification: false, message: '', type: '' }" class="relative">
             <div x-show="showNotification"
                  x-transition
@@ -11,7 +10,6 @@
             </div>
 
 
-        <!-- Filtres et options de tri existants -->
         <div class="flex justify-between items-center mb-6">
             <div class="flex space-x-4" x-data="{
                 openPrice: false, openCategory: false, openSort: false,
@@ -67,7 +65,6 @@
                 </div>
             </div>
 
-            <!-- Bouton de tri et de réinitialisation -->
             <div class="flex space-x-4" x-data="{ openSort: false }">
                 <div class="relative">
                     <button @click="openSort = !openSort" class="bg-gray-200 px-3 py-1 rounded-full text-gray-700 text-sm font-semibold">Trier ▼</button>
@@ -93,7 +90,6 @@
             </div>
         </div>
 
-        <!-- Liste des produits -->
         @if($products->isEmpty())
             <div class="flex flex-col items-center justify-center bg-gray-100 p-6 rounded-lg shadow-md mt-10">
                 <h2 class="text-xl font-bold text-gray-800">Aucun produit trouvé</h2>

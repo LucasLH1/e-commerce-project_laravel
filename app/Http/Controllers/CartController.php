@@ -15,17 +15,14 @@ class CartController extends Controller
     {
         $cartItems = session()->get('cart', []);
 
-        // Vérifie si chaque élément contient bien un 'id'
         foreach ($cartItems as $key => $item) {
             if (!isset($item['id'])) {
                 \Log::error("Produit sans ID dans le panier", ['item' => $item]);
             }
         }
 
-        // 🔥 **Recalcul du total du panier sans réduction**
         $total = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartItems));
 
-        // 🔥 **Réinitialiser la session pour empêcher le total réduit de persister**
         session()->put('cart_total', $total); // Remet le total normal
         session()->forget('applied_coupon'); // Supprime le coupon actif s'il y en avait un
 
@@ -50,7 +47,7 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity'] = max(1, intval($request->quantity)); // Empêche une quantité < 1
+            $cart[$product->id]['quantity'] = max(1, intval($request->quantity));
             session()->put('cart', $cart);
         }
 
@@ -62,22 +59,18 @@ class CartController extends Controller
         try {
             Log::info('Ajout au panier : Produit ID ' . $product->id);
 
-            // Vérifie si le produit existe
             if (!$product) {
                 Log::error('Erreur : Produit introuvable ID ' . $product->id);
                 return response()->json(['success' => false, 'message' => 'Produit introuvable'], 404);
             }
 
-            // Récupérer le panier
             $cart = session()->get('cart', []);
 
-            // ✅ Vérifier que $cart est bien un tableau
             if (!is_array($cart)) {
                 Log::warning("Le panier était corrompu. Réinitialisation...");
                 $cart = [];
             }
 
-            // ✅ Vérifier que chaque entrée du panier est bien un tableau
             foreach ($cart as $key => $value) {
                 if (!is_array($value)) {
                     Log::warning("Valeur corrompue détectée dans le panier pour l'ID $key. Suppression...");
@@ -85,7 +78,6 @@ class CartController extends Controller
                 }
             }
 
-            // ✅ Vérifier que le produit est bien structuré avant ajout
             if (!isset($cart[$product->id]) || !is_array($cart[$product->id])) {
                 Log::info("Produit ID {$product->id} non trouvé dans le panier. Initialisation...");
                 $cart[$product->id] = [
@@ -96,13 +88,11 @@ class CartController extends Controller
                 ];
             }
 
-            // Vérification de la quantité
             if (!isset($cart[$product->id]['quantity']) || !is_numeric($cart[$product->id]['quantity'])) {
                 Log::warning("Quantité corrompue détectée pour le produit ID {$product->id}. Réinitialisation...");
                 $cart[$product->id]['quantity'] = 0;
             }
 
-            // Ajouter +1 à la quantité
             $cart[$product->id]['quantity'] += 1;
 
             // Sauvegarder en session
@@ -139,7 +129,6 @@ class CartController extends Controller
             return response()->json(['success' => false]);
         }
 
-        // 🔥 **CORRECTION : Calculer le total à partir du panier**
         $cart = session()->get('cart', []);
         $total = 0;
 
@@ -147,12 +136,9 @@ class CartController extends Controller
             $total += $item['price'] * $item['quantity'];
         }
 
-        // 🔥 **CORRECTION : Appliquer la réduction**
         if ($coupon->discount_type === 'fixed') {
-            // Réduction fixe en euros
             $newTotal = max(0, $total - $coupon->discount_value);
         } elseif ($coupon->discount_type === 'percentage') {
-            // Réduction en pourcentage
             $discountAmount = ($coupon->discount_value / 100) * $total;
             $newTotal = max(0, $total - $discountAmount);
         } else {
@@ -161,6 +147,12 @@ class CartController extends Controller
         }
         //Log::info("Coupon appliqué: $couponCode - Réduction: $discount - Ancien total: $total - Nouveau total: $newTotal");
 
+        session()->put('applied_coupon', [
+            'id' => $coupon->id,
+            'code' => $coupon->code,
+            'discount_type' => $coupon->discount_type,
+            'discount_value' => $coupon->discount_value
+        ]);
         session()->put('cart_total', $newTotal);
 
         return response()->json([

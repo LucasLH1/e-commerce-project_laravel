@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto max-w-6xl py-6 p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-6 rounded-lg shadow-lg">
-            <!-- Galerie d'images alignée à gauche -->
             <div class="flex space-x-4"
                  x-data="{
     activeImage: '{{ asset($product->images->first()->image_path ?? '/images/default.jpg') }}',
@@ -19,12 +18,10 @@
                 </div>
             </div>
 
-            <!-- Détails du produit avec mise en page améliorée -->
             <div>
                 <h1 class="text-4xl font-bold text-gray-800">{{ $product->name }}</h1>
                 <p class="text-lg text-gray-600 mt-2">{{ $product->description }}</p>
 
-                <!-- Prix & stock amélioré -->
                 <div class="mt-4 flex items-center space-x-4">
                     <p class="text-3xl font-bold text-green-600">{{ number_format($product->price, 2) }} €</p>
                     <span class="px-3 py-1 text-sm font-semibold rounded-full"
@@ -43,7 +40,6 @@
                     </span>
                 </div>
 
-                <!-- Boutons d'achat avec animations -->
                 <div class="mt-6 flex space-x-4" x-data="{ showNotification: false, message: '' }">
                     <button @click.prevent="
                         fetch('{{ route('cart.add', $product->id) }}', {
@@ -68,7 +64,6 @@
                        class="bg-green-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-600 transition transform hover:scale-105 shadow-lg flex items-center justify-center">
                         ⚡ Acheter maintenant
                     </a>
-                    <!-- Notification -->
                     <div x-show="showNotification" x-transition class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg">
                         <span x-text="message"></span>
                     </div>
@@ -76,7 +71,6 @@
             </div>
         </div>
 
-        <!-- Avis clients avec animation et filtres -->
         <div class="mt-12" x-data="{ showReviews: true }">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-gray-800">Avis des clients ⭐</h2>

@@ -27,15 +27,15 @@ Route::get('/contact', function () {
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+//Route::middleware([
+//    'auth:sanctum',
+//    config('jetstream.auth_session'),
+//    'verified',
+//])->group(function () {
+//    Route::get('/dashboard', function () {
+//        return view('dashboard');
+//    })->name('dashboard');
+//});
 
 Route::get('/search', function (Request $request) {
     $query = $request->input('q');
@@ -85,4 +85,4 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-
+require __DIR__.'/admin.php';

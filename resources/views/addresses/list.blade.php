@@ -140,7 +140,6 @@
     </div>
 
 
-    <!-- Modal Suppression -->
     <div x-show="showDeleteConfirm" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-lg font-semibold">Êtes-vous sûr de vouloir supprimer cette adresse ?</h2>
@@ -151,7 +150,6 @@
         </div>
     </div>
 
-    <!-- Inclusion des formulaires -->
     @include('addresses.form')
     @include('addresses.create-modal')
 
